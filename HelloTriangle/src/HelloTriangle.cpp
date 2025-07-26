@@ -36,8 +36,8 @@ int main(void)
         std::cout << "Error al inicializar GLAD" << std::endl;
         return -1;
     }
-    application.Setup();
     glfwSetKeyCallback(window, checkKeyboard);
+    application.Setup();
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
