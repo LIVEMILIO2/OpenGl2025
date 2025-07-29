@@ -10,6 +10,6 @@ void main ()
 {  
 	color = vColor;
 	vec4 outPosition = vPosition;
-	outPosition.x = outPosition.x * cos(time);
+	outPosition.x;// = outPosition.x * cos(time);
 	gl_Position = outPosition / 2.0;  //equivale a hacer return gl_Position
 }

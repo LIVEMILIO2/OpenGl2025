@@ -43,6 +43,7 @@ int main(void)
     {
         /* Poll for and process events */
         glfwPollEvents();
+        application.Keyboard();
         application.Update();
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
