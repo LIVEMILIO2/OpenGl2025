@@ -1,55 +1,49 @@
 #include "glad.h"
 #include "GLFW/glfw3.h"
+#include "glm/glm.hpp"
 #include "Application.h"
 #include "iostream"
 Application application;
 
 void checkKeyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-    {
-        //activar el flag de salida del programa
-        glfwSetWindowShouldClose(window, 1);
-        
-
-    }
+    application.Keyboard(key, scancode, action, mods);
 }
 int main(void)
 {
-    GLFWwindow* window;
 
     /* Initialize the library */
     if (!glfwInit())
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(1020, 720, "Hello Triangle", NULL, NULL);
-    if (!window)
+    application.window = glfwCreateWindow(1020, 720, "Hello Triangle", NULL, NULL);
+    if (!application.window)
     {
         glfwTerminate();
         return -1;
     }
     /* Make the window's context current */
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(application.window);
     
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Error al inicializar GLAD" << std::endl;
         return -1;
     }
-    glfwSetKeyCallback(window, checkKeyboard);
+    glfwSetKeyCallback(application.window, checkKeyboard);
     application.Setup();
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(application.window))
     {
         /* Poll for and process events */
         glfwPollEvents();
-        application.Keyboard();
+        //application.Keyboard();
         application.Update();
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
         application.Draw();
         /* Swap front and back buffers */
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(application.window);
 
     }
 
