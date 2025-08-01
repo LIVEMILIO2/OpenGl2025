@@ -147,26 +147,26 @@ void Application::Setup()
 
 	// Configuración inicial de la cámara
 	eye = glm::vec3(0.0f, 0.0f, 2.0f); // Posición inicial de la cámara
-	center = glm::vec3(0.0f, 0.0f, 0.0f); // Punto al que mira (origen)
+	center = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	// Matriz de proyección PERSPECTIVA correcta
+	
 	projection = glm::perspective(
-		glm::radians(45.0f),    // Campo de visión de 45 grados
-		1020.0f / 720.0f,       // Relación de aspecto
-		0.1f,                   // Plano cercano
-		100.0f                  // Plano lejano
+		glm::radians(45.0f),    
+		1020.0f / 720.0f,       
+		0.1f,                  
+		100.0f                 
 	);
 
-	glEnable(GL_DEPTH_TEST); // Importante para la perspectiva
+	glEnable(GL_DEPTH_TEST); 
 }
 void Application::Update()
 {
-	time += 0.016f; // Incremento de tiempo más controlado (60 FPS aprox)
+	time += 0.016f; 
 
-	// Configuración CORREGIDA de la cámara:
-	eye = glm::vec3(0.0f, 0.0f, 2.0f); // Cámara en Z = 2 (frente al triángulo)
-	center = glm::vec3(0.0f, 0.0f, 0.0f); // Mira al origen (donde está el triángulo)
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); // Vector "arriba" del mundo
+	
+	eye = glm::vec3(0.0f, 0.0f, 2.0f); 
+	center = glm::vec3(0.0f, 0.0f, 0.0f); 
+	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); 
 
 	// Matriz de vista correctamente calculada
 	camera = glm::lookAt(eye, center, up);

@@ -12,10 +12,6 @@ uniform vec4 vertexColors[3];
 void main()
 {
     color = vertexColors[gl_VertexID];
-    
-    // Orden CORRECTO de multiplicación de matrices:
     gl_Position = projection * camera * vPosition;
-    
-    // Para debug: ver las coordenadas directamente
-    // gl_Position = vPosition; // Descomenta para ver si el triángulo aparece sin transformaciones
+    // gl_Position = vPosition;
 }
