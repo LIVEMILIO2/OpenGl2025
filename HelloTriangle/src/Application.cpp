@@ -16,19 +16,30 @@ void Application::SetupShaderPassthru()
 	std::cout << "shader compilados" << std::endl;
 
     timeID = glGetUniformLocation(shaders["passthru"], "time");
+	/*selectColorRojo = glGetUniformLocation(shaders["passthru"], "outColorRed");
+	selectColorVerde = glGetUniformLocation(shaders["passthru"], "outColorGreen");
+	selectColorAzul = glGetUniformLocation(shaders["passthru"], "outColorBlue");*/
 }
 void Application::SetupShadersTransforms()
 {
-	//std::cout << "Application::Setup()" << std::endl;
-//cargar shaders
 	std::string vertexShader{ loadTextFile("Shaders/vertexTrans.glsl") };
 	std::string fragmentShader{ loadTextFile("Shaders/fragmentTrans.glsl") };
-	//crear programa
+
 	shaders["transforms"] = InitializeProgram(vertexShader, fragmentShader);
-	std::cout << "shader compilados" << std::endl;
 
 	uniforms["projection"] = glGetUniformLocation(shaders["transforms"], "projection");
 	uniforms["camera"] = glGetUniformLocation(shaders["transforms"], "camera");
+	timeID = glGetUniformLocation(shaders["transforms"], "time");
+
+	// Obtener locations para los colores
+	vertexColorLocs[0] = glGetUniformLocation(shaders["transforms"], "vertexColors[0]");
+	vertexColorLocs[1] = glGetUniformLocation(shaders["transforms"], "vertexColors[1]");
+	vertexColorLocs[2] = glGetUniformLocation(shaders["transforms"], "vertexColors[2]");
+
+	// Valores iniciales de color
+	vertexColorValues[0] = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f); // Rojo
+	vertexColorValues[1] = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f); // Verde
+	vertexColorValues[2] = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f); // Azul
 }
 void Application::SetupShaders()
 {
@@ -111,67 +122,75 @@ void Application::SetupGeometrySingleArray()
 
 	};
 	{
+		glGenVertexArrays(1, &VAO_id);
+		glBindVertexArray(VAO_id);
+		geometry["triangulo"] = VAO_id;
 
-	//crear VAO
-	GLuint VAO_id, VBO_id;
-	glGenVertexArrays(1, &VAO_id);
-	glBindVertexArray(VAO_id);
+		// Buffer de vértices (ahora con posiciones y colores)
+		glGenBuffers(1, &VBO_id);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO_id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * triangle.size(), triangle.data(), GL_STATIC_DRAW);
 
-	geometry["triangulo"] = VAO_id;
-	//crear VBO
-	glGenBuffers(1, &VBO_id);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO_id);
-	glBufferData(GL_ARRAY_BUFFER,
-		sizeof(GLfloat) * triangle.size(),
-		&triangle[0], GL_STATIC_DRAW);
+		// Atributos de posición (stride = 8 floats)
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)0);
+		glEnableVertexAttribArray(0);
 
+		// Atributos de color (stride = 8 floats, offset = 4 floats)
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(4 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(1);
 	}
-	int stride = 8 * sizeof(GLfloat);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, stride, (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, stride, (GLvoid*)(4*sizeof(GLfloat)));//colores
-	glEnableVertexAttribArray(1);
-}
+	}
 void Application::Setup()
 {
 	SetupShaders();
 	SetupGeometry();
-	//SetupGeometrySingleArray();
 
-	//inicializar camara
-	eye = glm::vec3(0.0f, 0.0f, 2.0f);
-	center = glm::vec3(0.0f, 0.0f,1.0f);
-	projection = glm::perspective(glm::radians(45.0f), (1020.0f / 720.0f), 0.1f,10.0f);
+	// Configuración inicial de la cámara
+	eye = glm::vec3(0.0f, 0.0f, 2.0f); // Posición inicial de la cámara
+	center = glm::vec3(0.0f, 0.0f, 0.0f); // Punto al que mira (origen)
+
+	// Matriz de proyección PERSPECTIVA correcta
+	projection = glm::perspective(
+		glm::radians(45.0f),    // Campo de visión de 45 grados
+		1020.0f / 720.0f,       // Relación de aspecto
+		0.1f,                   // Plano cercano
+		100.0f                  // Plano lejano
+	);
+
+	glEnable(GL_DEPTH_TEST); // Importante para la perspectiva
 }
 void Application::Update()
 {
-	time += 0.0001f;
-	//actualizar ojo
-	eye = glm::vec3(0.0f, 0.0f, cos(time));
-	//actualizar center
-	center = glm::vec3(0.0f, 0.0f, 1.0f);
-	//actualizar camara
-	camera = glm::lookAt(eye,center,glm::vec3(0.0f,1.0f,0.0f));
-	//std::cout << "Application::Update()" << std::endl;
+	time += 0.016f; // Incremento de tiempo más controlado (60 FPS aprox)
+
+	// Configuración CORREGIDA de la cámara:
+	eye = glm::vec3(0.0f, 0.0f, 2.0f); // Cámara en Z = 2 (frente al triángulo)
+	center = glm::vec3(0.0f, 0.0f, 0.0f); // Mira al origen (donde está el triángulo)
+	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); // Vector "arriba" del mundo
+
+	// Matriz de vista correctamente calculada
+	camera = glm::lookAt(eye, center, up);
 }
 
 void Application::Draw()
 {
+	// Limpiar buffers
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // Color de fondo
+
 	glUseProgram(shaders["transforms"]);
-	glUniform1f(timeID, time);
+
+	// Configurar matrices
 	glUniformMatrix4fv(uniforms["camera"], 1, GL_FALSE, glm::value_ptr(camera));
 	glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, glm::value_ptr(projection));
-	glUniform4f(VBO_colorsID,r,g,b,a);
+
+	// Configurar colores
+	glUniform4fv(vertexColorLocs[0], 1, glm::value_ptr(vertexColorValues[0]));
+	glUniform4fv(vertexColorLocs[1], 1, glm::value_ptr(vertexColorValues[1]));
+	glUniform4fv(vertexColorLocs[2], 1, glm::value_ptr(vertexColorValues[2]));
+
+	// Dibujar
 	glBindVertexArray(geometry["triangulo"]);
-
-	/*if (colorChanged)
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, VBO_colorsID);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * colors.size(), colors.data(), GL_STATIC_DRAW);
-		colorChanged = false;
-	}*/
-
-	
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 void Application::Keyboard(int key, int scancode, int action, int mods)
@@ -198,11 +217,11 @@ void Application::ChangeVertexColor(int vertexIndex)
 {
 	if (vertexIndex < 0 || vertexIndex > 2) return;
 
-	int baseIndex = vertexIndex * 4;
 	// Cambiar a un color aleatorio
-	colors[baseIndex] = static_cast<float>(rand()) / RAND_MAX;     // R
-	colors[baseIndex + 1] = static_cast<float>(rand()) / RAND_MAX; // G
-	colors[baseIndex + 2] = static_cast<float>(rand()) / RAND_MAX; // B
-
-	colorChanged = true;
+	vertexColorValues[vertexIndex] = glm::vec4(
+		static_cast<float>(rand()) / RAND_MAX,
+		static_cast<float>(rand()) / RAND_MAX,
+		static_cast<float>(rand()) / RAND_MAX,
+		1.0f
+	);
 }
