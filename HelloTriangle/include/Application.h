@@ -29,6 +29,8 @@ private:
 	glm::mat4 camera;
 	glm::vec3 eye;
 	glm::vec3 center;
+	glm::vec4 vertexColorValues[3]; 
+	GLuint vertexColorLocs[3];
 
 public:
 	float r, g, b, a;
