@@ -16,5 +16,4 @@ void main ()
 	outPosition.x;// = outPosition.x * cos(time);
 	vec4 finalColor = vColor + outColorAzul + outColorRojo +  outColorVerde;
 	color = finalColor;
-	gl_Position = outPosition;  //equivale a hacer return gl_Position
-}
+	gl_Position = outPosition; 

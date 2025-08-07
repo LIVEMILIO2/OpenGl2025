@@ -151,6 +151,12 @@
     <ClInclude Include="include\Plane.h" />
     <ClInclude Include="include\ShaderFuncs.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\fragmentPassthru.glsl" />
+    <None Include="Shaders\fragmentTrans.glsl" />
+    <None Include="Shaders\vertexPassthru.glsl" />
+    <None Include="Shaders\vertexTrans.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,12 +1,2 @@
 ﻿  Application.cpp
-  HelloPlane.cpp
-  Plane.cpp
-C:\Users\ALUMNOS\Desktop\Computo Grafico\OpenGl2025\Plane\src\Plane.cpp(34,37): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\ALUMNOS\Desktop\Computo Grafico\OpenGl2025\Plane\src\Plane.cpp(34,53): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\ALUMNOS\Desktop\Computo Grafico\OpenGl2025\Plane\src\Plane.cpp(42,13): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\ALUMNOS\Desktop\Computo Grafico\OpenGl2025\Plane\src\Plane.cpp(43,7): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\ALUMNOS\Desktop\Computo Grafico\OpenGl2025\Plane\src\Plane.cpp(124,14): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-  ShaderFuncs.cpp
-  Generating Code...
-  glad.c
   Plane.vcxproj -> C:\Users\ALUMNOS\Desktop\Computo Grafico\OpenGl2025\x64\Debug\Plane.exe

@@ -7,6 +7,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "Plane.h"
 class Application
 {
 private:
@@ -18,6 +19,7 @@ private:
 	void SetupShaders();
 	void SetupGeometry();
 	void SetupGeometrySingleArray();
+	void SetupPlane();
 	std::vector<GLfloat> colors;
 	bool colorChanged;
 	float time{ 0.0f };
@@ -27,11 +29,16 @@ private:
 	GLuint VBO_colorsID;
 	glm::mat4 projection;
 	glm::mat4 camera;
+	glm::mat4 accumTrans;
 	glm::vec3 eye;
 	glm::vec3 center;
-	glm::vec4 vertexColorValues[3]; 
-	GLuint vertexColorLocs[3];
-
+	glm::vec4 vertexColorValues;
+	//float time{ 0.0f };
+	float frecuency{ 17.0f };
+	float amplitude{ 0.12f };
+	//glm::vec4 ColorChange;
+	//GLuint vertexColorLocs[3];
+	Plane plane;
 public:
 	float r, g, b, a;
 	GLFWwindow* window;
