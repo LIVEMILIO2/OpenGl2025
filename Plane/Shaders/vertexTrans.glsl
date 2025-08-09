@@ -26,13 +26,12 @@ void main()
     vec4 newPosition = vPosition;
     float f = F(newPosition.x, newPosition.z, amplitude, time, frecuency);
     newPosition.y = f;
-    color = vec4(clamp(0.7 * f, 0.0f, 1.0f), 0.3, 0.4, 1.0);
-    //if (distance(vec4(0.0f, 0.0f, 0.0f, 1.0f), newPosition) < 0.3f)
-    //{
-    //    vertexColors.x = cos(time);
-    //    vertexColors.y = cos(time);
-    //    vertexColors.z = cos(time);
-   // }
+    color = vec4(0, 0, 0, 1.0);
+    //color = vec4(clamp(1 * f, 0.0f, 0.0f), 1, 1, 1.0);
+    if (distance(vec4(0.0f, 2.0f, 0.0f, 1.0f), newPosition) < 2.0f)
+    {
+        color = vec4(1, 1, 1, 1.0);
+    }
     gl_Position = 
         projection * 
         camera*

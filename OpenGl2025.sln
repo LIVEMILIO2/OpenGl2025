@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloTriangle", "HelloTrian
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plane", "Plane\Plane.vcxproj", "{F55E21E7-CEEA-4D8C-88E6-75FFAF4EC2A4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ADS", "ADS\ADS.vcxproj", "{9FBF996E-3300-407A-A681-07CFB3F5CE0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{F55E21E7-CEEA-4D8C-88E6-75FFAF4EC2A4}.Release|x64.Build.0 = Release|x64
 		{F55E21E7-CEEA-4D8C-88E6-75FFAF4EC2A4}.Release|x86.ActiveCfg = Release|Win32
 		{F55E21E7-CEEA-4D8C-88E6-75FFAF4EC2A4}.Release|x86.Build.0 = Release|Win32
+		{9FBF996E-3300-407A-A681-07CFB3F5CE0B}.Debug|x64.ActiveCfg = Debug|x64
+		{9FBF996E-3300-407A-A681-07CFB3F5CE0B}.Debug|x64.Build.0 = Debug|x64
+		{9FBF996E-3300-407A-A681-07CFB3F5CE0B}.Debug|x86.ActiveCfg = Debug|Win32
+		{9FBF996E-3300-407A-A681-07CFB3F5CE0B}.Debug|x86.Build.0 = Debug|Win32
+		{9FBF996E-3300-407A-A681-07CFB3F5CE0B}.Release|x64.ActiveCfg = Release|x64
+		{9FBF996E-3300-407A-A681-07CFB3F5CE0B}.Release|x64.Build.0 = Release|x64
+		{9FBF996E-3300-407A-A681-07CFB3F5CE0B}.Release|x86.ActiveCfg = Release|Win32
+		{9FBF996E-3300-407A-A681-07CFB3F5CE0B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
