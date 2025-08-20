@@ -28,7 +28,7 @@ void Application::SetupShadersTransforms()
 	shaders["transforms"] = InitializeProgram(vertexShader, fragmentShader);
 
 	uniforms["projection"] = glGetUniformLocation(shaders["transforms"], "projection");
-	uniforms["acumTrans"] = glGetUniformLocation(shaders["transforms"], "accumTrans");
+	uniforms["accumTrans"] = glGetUniformLocation(shaders["transforms"], "accumTrans");
 	uniforms["camera"] = glGetUniformLocation(shaders["transforms"], "camera");
 	uniforms["time"] = glGetUniformLocation(shaders["transforms"], "time");
 	uniforms["frecuency"] = glGetUniformLocation(shaders["transforms"], "frecuency");
@@ -175,7 +175,7 @@ void Application::Setup()
 	accumTrans = glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	glEnable(GL_DEPTH_TEST); 
 	/*glDepthFunc(GL_GREATER);*/
-	glPolygonMode(GL_FRONT, GL_LINE);
+	glPolygonMode(GL_FRONT, GL_FILL);
 	glPolygonMode(GL_BACK, GL_LINE);
 }
 void Application::Update()

@@ -28,8 +28,9 @@ void Application::SetupShadersTransforms()
 	shaders["transforms"] = InitializeProgram(vertexShader, fragmentShader);
 
 	uniforms["projection"] = glGetUniformLocation(shaders["transforms"], "projection");
-	uniforms["acumTrans"] = glGetUniformLocation(shaders["transforms"], "accumTrans");
+	uniforms["accumTrans"] = glGetUniformLocation(shaders["transforms"], "accumTrans");
 	uniforms["camera"] = glGetUniformLocation(shaders["transforms"], "camera");
+	uniforms["eye"] = glGetUniformLocation(shaders["transforms"], "eye");
 	uniforms["time"] = glGetUniformLocation(shaders["transforms"], "time");
 	uniforms["frecuency"] = glGetUniformLocation(shaders["transforms"], "frecuency");
 	uniforms["amplitude"] = glGetUniformLocation(shaders["transforms"], "amplitude");
@@ -175,15 +176,15 @@ void Application::Setup()
 	accumTrans = glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	glEnable(GL_DEPTH_TEST); 
 	/*glDepthFunc(GL_GREATER);*/
-	glPolygonMode(GL_FRONT, GL_LINE);
+	glPolygonMode(GL_FRONT, GL_FILL);
 	glPolygonMode(GL_BACK, GL_LINE);
 }
 void Application::Update()
 {
-	time += 0.0001f; 
+	time += 0.01f; 
 
 	
-	eye = glm::vec3(0.0f, 0.0f, 5.0f);
+	eye = glm::vec3(cos(time), sin(time), 5.0f);
 	center = glm::vec3(0.0f, 0.0f, 1.0f);
 	/*glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); */
 
@@ -203,6 +204,7 @@ void Application::Draw()
 	glUniform1f(uniforms["frecuency"], frecuency);
 	glUniform1f(uniforms["amplitude"], amplitude);
 	// Configurar matrices
+	glUniform3fv(uniforms["eye"], 1, glm::value_ptr(eye));
 	glUniformMatrix4fv(uniforms["camera"], 1, GL_FALSE, glm::value_ptr(camera));
 	glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, glm::value_ptr(projection));
 	glUniformMatrix4fv(uniforms["accumTrans"], 1, GL_FALSE, glm::value_ptr(accumTrans));

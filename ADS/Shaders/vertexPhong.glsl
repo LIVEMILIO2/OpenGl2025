@@ -1,6 +1,7 @@
 #version 460 core
 
 layout(location = 0) in vec4 vPosition;
+out vec4 color;
 out vec4 colorADS;
 uniform float time;
 uniform mat4 projection;
@@ -17,7 +18,6 @@ float F(float x, float z,float amplitude, float phase, float frecuency)
     //Amplitud
     return amplitude * cos(phase+ frecuency * (x * x + z * z));
 }
-
 struct Light
 {
     vec4 ambient;
@@ -25,14 +25,12 @@ struct Light
     vec4 specular;
     vec3 position;
 };
-
 struct Material
 {
     vec4 ambient;
     vec4 diffuse;
     vec4 specular;
 };
-
 vec4 ambient(Light L, Material M)
 {
     return L.ambient * M.ambient;
@@ -42,7 +40,6 @@ vec4 diffuse(Light L, Material M,vec3 Normal)
 {
     return L.diffuse * M.diffuse*max(0.0f,dot(normalize(L.position),normalize(Normal)));
 }
-
 vec4 specular(vec3 eye, vec3 vertexPos, Light L, vec3 Normal, Material M,float SH)
 {
     vec4 specular;
@@ -55,21 +52,17 @@ vec4 specular(vec3 eye, vec3 vertexPos, Light L, vec3 Normal, Material M,float S
     return specular;
 }
 
-float DF(float a, float b,float amplitude,float phase, float frecuency)
-{
-	return - sin(phase + frecuency *(a*a + b*b) * (2.0f + 2.0f * a));
-}
-
-vec3 NormalCalculate(float x, float z,float amplitude,float phase, float frecuency)
-{
-    return normalize(
-	vec3(DF(x,z,frecuency,phase,amplitude),1.0f,DF(z,x,frecuency,phase,amplitude)));
-}
-
-out vec3 normal;
-
+//vec4 specular(Light L, Material M)
+//{
+//    return L.specular*M.specular*(vec4 R * vec4 E)
+//}
+//float height(float x, float z, float time)
+//{
+//    return 0.125 * F(x, z, time);
+//}
 void main()
 {
+    vec3 Normal = vec3(0.0,1.0f,0);
     Light light;
     light.ambient = vec4(0.1f,1.0f,0.1f,1.0f);
     light.position = vec3(cos(time), 2.0f, sin(time));
@@ -79,14 +72,13 @@ void main()
     material.ambient = vec4(1.0f, 1.0f, 1.0f, 1.0f);
     material.diffuse = vec4(0.1f, 0.5f, 1.0f, 1.0f);
     material.specular = vec4(0.0f, 0.5f,0.0f,1.0f);
+    //color = vertexColors;
     vec4 newPosition = vPosition;
-    newPosition.y = F(newPosition.x,newPosition.z,0.1,time,25.f);
     newPosition = camera * accumTrans * newPosition;
-    vec3 Normal = NormalCalculate(newPosition.x,newPosition.z,0.1,time,25.f);
-    
-    colorADS =
-        ambient(light, material)+
-        diffuse(light,material,Normal)+
-        specular(eye,newPosition.xyz,light,Normal,material,8.0f);
+    color = vec4(0, 0, 0, 1.0);
+    vec3 vertexPos = vec3(newPosition.x,newPosition.y,newPosition.z);
+    colorADS = ambient(light, material)+diffuse(light,material,Normal)+specular(eye,newPosition.xyz,
+    light,Normal,material,8.0f);
     gl_Position = projection *  newPosition;
+    // gl_Position = vPosition;
 }

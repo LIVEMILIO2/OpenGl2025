@@ -61,5 +61,11 @@
     <None Include="Shaders\vertexTrans.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\fragmentPhong.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\vertexPhong.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

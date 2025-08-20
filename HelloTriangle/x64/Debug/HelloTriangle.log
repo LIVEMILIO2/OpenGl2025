@@ -1,1 +1,16 @@
-﻿  HelloTriangle.vcxproj -> C:\Users\ALUMNOS\Desktop\Computo Grafico\OpenGl2025\x64\Debug\HelloTriangle.exe
+﻿  Application.cpp
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\HelloTriangle\include\Application.h(35,8): error C3646: 'plane': especificador de invalidación desconocido
+  (compilando archivo de origen "src/Application.cpp")
+  
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\HelloTriangle\include\Application.h(35,2): error C4430: falta el especificador de tipo; se presupone int. Nota: C++ no admite default-int
+  (compilando archivo de origen "src/Application.cpp")
+  
+  HelloTriangle.cpp
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\HelloTriangle\include\Application.h(35,8): error C3646: 'plane': especificador de invalidación desconocido
+  (compilando archivo de origen "src/HelloTriangle.cpp")
+  
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\HelloTriangle\include\Application.h(35,2): error C4430: falta el especificador de tipo; se presupone int. Nota: C++ no admite default-int
+  (compilando archivo de origen "src/HelloTriangle.cpp")
+  
+  ShaderFuncs.cpp
+  Generando código...

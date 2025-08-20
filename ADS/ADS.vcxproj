@@ -153,8 +153,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\fragmentPassthru.glsl" />
+    <None Include="Shaders\fragmentPhong.glsl" />
     <None Include="Shaders\fragmentTrans.glsl" />
     <None Include="Shaders\vertexPassthru.glsl" />
+    <None Include="Shaders\vertexPhong.glsl" />
     <None Include="Shaders\vertexTrans.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
