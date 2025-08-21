@@ -4,6 +4,8 @@
 #include "glm/glm.hpp"
 #include <iostream>
 #include <vector>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 //Application::Application() {}
 void Application::SetupShaderPassthru()
 {
@@ -16,41 +18,30 @@ void Application::SetupShaderPassthru()
 	std::cout << "shader compilados" << std::endl;
 
     timeID = glGetUniformLocation(shaders["passthru"], "time");
-	/*selectColorRojo = glGetUniformLocation(shaders["passthru"], "outColorRed");
-	selectColorVerde = glGetUniformLocation(shaders["passthru"], "outColorGreen");
-	selectColorAzul = glGetUniformLocation(shaders["passthru"], "outColorBlue");*/
+	
 }
 void Application::SetupShadersTransforms()
 {
-	std::string vertexShader{ loadTextFile("Shaders/vertexTrans.glsl") };
-	std::string fragmentShader{ loadTextFile("Shaders/fragmentTrans.glsl") };
+	std::string vertexShader{ loadTextFile("Shaders/vertexTexture.glsl") };
+	std::string fragmentShader{ loadTextFile("Shaders/fragmentTexture.glsl") };
 
 	shaders["transforms"] = InitializeProgram(vertexShader, fragmentShader);
 
 	uniforms["projection"] = glGetUniformLocation(shaders["transforms"], "projection");
 	uniforms["accumTrans"] = glGetUniformLocation(shaders["transforms"], "accumTrans");
 	uniforms["camera"] = glGetUniformLocation(shaders["transforms"], "camera");
-	uniforms["eye"] = glGetUniformLocation(shaders["transforms"], "eye");
 	uniforms["time"] = glGetUniformLocation(shaders["transforms"], "time");
 	uniforms["frecuency"] = glGetUniformLocation(shaders["transforms"], "frecuency");
 	uniforms["amplitude"] = glGetUniformLocation(shaders["transforms"], "amplitude");
+	uniforms["tex0"] = glGetUniformLocation(shaders["transforms"], "tex0");
 	// Obtener locations para los colores
 	uniforms["VertexColors"] = glGetUniformLocation(shaders["transforms"], "vertexColors");
-	//uniforms["ColorChange"] = glGetUniformLocation(shaders["transforms"], "ColorChange");
-	/*vertexColorLocs[1] = glGetUniformLocation(shaders["transforms"], "vertexColors[1]");
-	vertexColorLocs[2] = glGetUniformLocation(shaders["transforms"], "vertexColors[2]");*/
-	vertexColorValues = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-	//ColorChange = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
-	//// Valores iniciales de color
-	//vertexColorValues[0] = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f); // Rojo
-	//vertexColorValues[1] = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f); // Verde
-	//vertexColorValues[2] = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f); // Azul
+	//vertexColorValues = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+
 }
 void Application::SetupShaders()
 {
 	SetupShadersTransforms();
-	//SetupShadersPassThru();
-	//uniforms["camera"] = glGetUniformLocation(shaders[""]);
 }
 
 void Application::SetupGeometry()
@@ -80,16 +71,6 @@ void Application::SetupGeometry()
 		//1.0f, 0.0f, 0.0f, 1.0f,  // Rojo (vértice 0)
 		//0.0f, 1.0f, 0.0f, 1.0f,   // Verde (vértice 1)
 	};
-	//std::vector<GLfloat> triangle
-	//{
-	//	-1.0f,1.0f,-1.0f,1.0f, //vertice 0
-	//	1.0f,0.0f,0.0f,1.0f,//Rojo
-	//	-1.0f,-1.0f,-1.0f,1.0f,//vertice 1
-	//	0.0f,1.0f,0.0f,1.0f,//verde
-	//	1.0f,-1.0f,-1.0f,1.0f,//vertice 2
-	//	0.0f,0.0f,1.0f,1.0f,//Azul	
-
-	//};
 	// Generar y bindear el VAO
 	glGenVertexArrays(1, &VAO_id);
 	glBindVertexArray(VAO_id);
@@ -105,20 +86,9 @@ void Application::SetupGeometry()
 
 
 	int stride = 8 * sizeof(GLfloat);
-	//glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, stride, (GLvoid*)0);
-	//glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, stride, (GLvoid*)(4 * sizeof(GLfloat)));//colores
-	//glEnableVertexAttribArray(1);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * triangle.size(), triangle.data(), GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(0);
-
-	//// Buffer de colores
-	//glGenBuffers(1, &VBO_colorsID);
-	//glBindBuffer(GL_ARRAY_BUFFER, VBO_colorsID);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * colors.size(), colors.data(), GL_STATIC_DRAW);
-	//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
-	//glEnableVertexAttribArray(1);
 }
 void Application::SetupGeometrySingleArray()
 {
@@ -153,15 +123,36 @@ void Application::SetupGeometrySingleArray()
 }
 void Application::SetupPlane()
 {
-	plane.createPlane(50);
+	plane.createPlane(1);
 
 }
+GLuint Application::SetUpTexture(const std::string& filename)
+{
+	int width, height, channels;
+	unsigned char * img = stbi_load(filename.c_str(), &width, &height, &channels, 4);
+	if (img == nullptr)
+		return -1;
+	
+	GLuint texID = -1;
+	glGenTextures(1, &texID);
+	glBindTexture(GL_TEXTURE_2D, texID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
+
+	stbi_image_free(img);
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return texID;
+
+}	
 void Application::Setup()
 {
 	SetupShaders();
 	SetupPlane();
 	//SetupGeometry();
-	
+	textures["lenna"] = SetUpTexture("Textures/Lenna.png");
 	// Configuración inicial de la cámara
 	eye = glm::vec3(0.0f, 0.0f, 2.0f); // Posición inicial de la cámara
 	center = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -181,10 +172,10 @@ void Application::Setup()
 }
 void Application::Update()
 {
-	time += 0.001f; 
+	time += 0.0001f; 
 
 	
-	eye = glm::vec3(cos(time), sin(time), 5.0f);
+	eye = glm::vec3(0.0f, 0.0f, 5.0f);
 	center = glm::vec3(0.0f, 0.0f, 1.0f);
 	/*glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); */
 
@@ -204,18 +195,16 @@ void Application::Draw()
 	glUniform1f(uniforms["frecuency"], frecuency);
 	glUniform1f(uniforms["amplitude"], amplitude);
 	// Configurar matrices
-	glUniform3fv(uniforms["eye"], 1, glm::value_ptr(eye));
 	glUniformMatrix4fv(uniforms["camera"], 1, GL_FALSE, glm::value_ptr(camera));
 	glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, glm::value_ptr(projection));
 	glUniformMatrix4fv(uniforms["accumTrans"], 1, GL_FALSE, glm::value_ptr(accumTrans));
 	// Configurar colores
 	glUniform4fv(uniforms["VertexColors"], 1, &vertexColorValues[0]);
-	//glUniform4fv(uniforms["ColorChange"], 1, &ColorChange[0]);
-	/*glUniform4fv(vertexColorLocs[0], 1, glm::value_ptr(vertexColorValues[0]));
-	glUniform4fv(vertexColorLocs[1], 1, glm::value_ptr(vertexColorValues[1]));
-	glUniform4fv(vertexColorLocs[2], 1, glm::value_ptr(vertexColorValues[2]));*/
-
 	// Dibujar
+	glBindTexture(GL_TEXTURE_2D, textures["lenna"]);
+	glUniform1i(uniforms["tex0"], 0);
+	glActiveTexture(GL_TEXTURE0);
+
 	glBindVertexArray(plane.vao);
 	glDrawArrays(GL_TRIANGLES, 0, plane.getNumVertex());
 
@@ -243,16 +232,4 @@ void Application::Keyboard(int key, int scancode, int action, int mods)
 		//ChangeVertexColor(2); // Cambiar vértice 2
 		amplitude += 0.05f;
 	//std::cout << "Application::Keyboard()" << std::endl;
-}
-void Application::ChangeVertexColor(int vertexIndex)
-{
-	//if (vertexIndex < 0 || vertexIndex > 2) return;
-
-	// Cambiar a un color aleatorio
-	/*vertexColorValues[vertexIndex] = glm::vec4(
-		static_cast<float>(rand()) / RAND_MAX,
-		static_cast<float>(rand()) / RAND_MAX,
-		static_cast<float>(rand()) / RAND_MAX,
-		1.0f
-	);*/
 }

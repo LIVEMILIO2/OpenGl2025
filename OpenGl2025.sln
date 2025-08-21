@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plane", "Plane\Plane.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ADS", "ADS\ADS.vcxproj", "{9FBF996E-3300-407A-A681-07CFB3F5CE0B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Texture", "Texture\Texture.vcxproj", "{278EE405-197C-4EE6-96FC-CD03F991B83B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,14 @@ Global
 		{9FBF996E-3300-407A-A681-07CFB3F5CE0B}.Release|x64.Build.0 = Release|x64
 		{9FBF996E-3300-407A-A681-07CFB3F5CE0B}.Release|x86.ActiveCfg = Release|Win32
 		{9FBF996E-3300-407A-A681-07CFB3F5CE0B}.Release|x86.Build.0 = Release|Win32
+		{278EE405-197C-4EE6-96FC-CD03F991B83B}.Debug|x64.ActiveCfg = Debug|x64
+		{278EE405-197C-4EE6-96FC-CD03F991B83B}.Debug|x64.Build.0 = Debug|x64
+		{278EE405-197C-4EE6-96FC-CD03F991B83B}.Debug|x86.ActiveCfg = Debug|Win32
+		{278EE405-197C-4EE6-96FC-CD03F991B83B}.Debug|x86.Build.0 = Debug|Win32
+		{278EE405-197C-4EE6-96FC-CD03F991B83B}.Release|x64.ActiveCfg = Release|x64
+		{278EE405-197C-4EE6-96FC-CD03F991B83B}.Release|x64.Build.0 = Release|x64
+		{278EE405-197C-4EE6-96FC-CD03F991B83B}.Release|x86.ActiveCfg = Release|Win32
+		{278EE405-197C-4EE6-96FC-CD03F991B83B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
