@@ -153,6 +153,8 @@ void Application::Setup()
 	SetupPlane();
 	//SetupGeometry();
 	textures["lenna"] = SetUpTexture("Textures/Lenna.png");
+	textures["Agnes"] = SetUpTexture("Textures/Agnes.png");
+	Texturas = { "lenna", "Agnes" };
 	// Configuración inicial de la cámara
 	eye = glm::vec3(0.0f, 0.0f, 2.0f); // Posición inicial de la cámara
 	center = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -201,7 +203,8 @@ void Application::Draw()
 	// Configurar colores
 	glUniform4fv(uniforms["VertexColors"], 1, &vertexColorValues[0]);
 	// Dibujar
-	glBindTexture(GL_TEXTURE_2D, textures["lenna"]);
+	std::string currentTextureName = Texturas[indexTex];
+	glBindTexture(GL_TEXTURE_2D, textures[currentTextureName]);
 	glUniform1i(uniforms["tex0"], 0);
 	glActiveTexture(GL_TEXTURE0);
 
@@ -211,25 +214,32 @@ void Application::Draw()
 }
 void Application::Keyboard(int key, int scancode, int action, int mods)
 {
-	
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
-		//activar el flag de salida del programa
 		glfwSetWindowShouldClose(window, 1);
-
-
 	}
+
+	if (action == GLFW_PRESS || action == GLFW_REPEAT)
+	{
+		if (key == GLFW_KEY_RIGHT)
+		{
+			indexTex = (indexTex + 1) % Texturas.size();
+
+		}
+		else if (key == GLFW_KEY_LEFT)
+		{
+			indexTex = (indexTex - 1 + Texturas.size()) % Texturas.size();
+			
+		}
+	}
+
+	// Resto de tus controles existentes
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-		//ChangeVertexColor(0); // Cambiar vértice 0
 		amplitude += 0.05f;
 
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
-		//ChangeVertexColor(1); // Cambiar vértice 1
-		//amplitude -= 0.05f;
 		frecuency += 1.0f;
 
 	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
-		//ChangeVertexColor(2); // Cambiar vértice 2
 		amplitude += 0.05f;
-	//std::cout << "Application::Keyboard()" << std::endl;
 }
