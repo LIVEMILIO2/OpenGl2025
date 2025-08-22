@@ -42,8 +42,8 @@ private:
 	//glm::vec4 ColorChange;
 	//GLuint vertexColorLocs[3];
 	Plane plane;
-	int currentTextureIndex = 0; 
-	std::vector<std::string> textureNames;
+	int indexTex = 0; 
+	std::vector<std::string> Texturas;
 public:
 	float r, g, b, a;
 	GLFWwindow* window;
