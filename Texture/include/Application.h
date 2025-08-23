@@ -36,6 +36,7 @@ private:
 	glm::vec3 eye;
 	glm::vec3 center;
 	glm::vec4 vertexColorValues;
+	float leny{ 0.f };
 	//float time{ 0.0f };
 	float frecuency{ 0.f };
 	float amplitude{ 0.f };

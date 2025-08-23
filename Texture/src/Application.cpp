@@ -34,6 +34,8 @@ void Application::SetupShadersTransforms()
 	uniforms["frecuency"] = glGetUniformLocation(shaders["transforms"], "frecuency");
 	uniforms["amplitude"] = glGetUniformLocation(shaders["transforms"], "amplitude");
 	uniforms["tex0"] = glGetUniformLocation(shaders["transforms"], "tex0");
+	uniforms["tex1"] = glGetUniformLocation(shaders["transforms"], "tex1");
+	uniforms["leny"] = glGetUniformLocation(shaders["transforms"], "leny");
 	// Obtener locations para los colores
 	uniforms["VertexColors"] = glGetUniformLocation(shaders["transforms"], "vertexColors");
 	//vertexColorValues = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
@@ -154,7 +156,7 @@ void Application::Setup()
 	//SetupGeometry();
 	textures["lenna"] = SetUpTexture("Textures/Lenna.png");
 	textures["Agnes"] = SetUpTexture("Textures/Agnes.png");
-	Texturas = { "lenna", "Agnes" };
+	//Texturas = { "lenna", "Agnes" };
 	// Configuración inicial de la cámara
 	eye = glm::vec3(0.0f, 0.0f, 2.0f); // Posición inicial de la cámara
 	center = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -196,6 +198,7 @@ void Application::Draw()
 	glUniform1f(uniforms["time"], time);
 	glUniform1f(uniforms["frecuency"], frecuency);
 	glUniform1f(uniforms["amplitude"], amplitude);
+	glUniform1f(uniforms["leny"], leny);
 	// Configurar matrices
 	glUniformMatrix4fv(uniforms["camera"], 1, GL_FALSE, glm::value_ptr(camera));
 	glUniformMatrix4fv(uniforms["projection"], 1, GL_FALSE, glm::value_ptr(projection));
@@ -203,11 +206,13 @@ void Application::Draw()
 	// Configurar colores
 	glUniform4fv(uniforms["VertexColors"], 1, &vertexColorValues[0]);
 	// Dibujar
-	std::string currentTextureName = Texturas[indexTex];
-	glBindTexture(GL_TEXTURE_2D, textures[currentTextureName]);
+//	std::string currentTextureName = Texturas[indexTex];
+	glBindTexture(GL_TEXTURE_2D, textures["lenna"]);
 	glUniform1i(uniforms["tex0"], 0);
 	glActiveTexture(GL_TEXTURE0);
-
+	glBindTexture(GL_TEXTURE_2D, textures["Agnes"]);
+	glUniform1i(uniforms["tex1"], 1);
+	glActiveTexture(GL_TEXTURE1);
 	glBindVertexArray(plane.vao);
 	glDrawArrays(GL_TRIANGLES, 0, plane.getNumVertex());
 
@@ -223,13 +228,13 @@ void Application::Keyboard(int key, int scancode, int action, int mods)
 	{
 		if (key == GLFW_KEY_RIGHT)
 		{
-			indexTex = (indexTex + 1) % Texturas.size();
+			leny -= 0.05f;
 
 		}
 		else if (key == GLFW_KEY_LEFT)
 		{
-			indexTex = (indexTex - 1 + Texturas.size()) % Texturas.size();
 			
+			leny += 0.05f;
 		}
 	}
 

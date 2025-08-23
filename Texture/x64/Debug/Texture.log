@@ -1,5 +1,1 @@
-﻿  Application.cpp
-C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\Texture\src\Application.cpp(230,73): warning C4267: '=': conversión de 'size_t' a 'int'; posible pérdida de datos
-  Texture.vcxproj -> C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\x64\Debug\Texture.exe
-  "pwsh.exe" no se reconoce como un comando interno o externo,
-  programa o archivo por lotes ejecutable.
+﻿  Texture.vcxproj -> C:\Users\ALUMNOS\Desktop\Computo Grafico\OpenGl2025\x64\Debug\Texture.exe

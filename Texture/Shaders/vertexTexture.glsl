@@ -13,6 +13,7 @@ uniform mat4 camera;
 uniform mat4 accumTrans;
 uniform float frecuency;
 uniform float amplitude;
+//uniform float leny;
 
 float F(float x, float z, float amplitude, float phase, float frecuency)
 {
