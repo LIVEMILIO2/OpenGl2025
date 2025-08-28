@@ -1,21 +1,32 @@
 #version 460 core
 
 layout (location = 0) in vec4 vPosition;
-layout (location = 1) in vec4 vColor;
+layout (location = 1) in vec2 vTextCoord;
 
-out vec4 color;
+out vec2 texCoord;
+out vec4 textureHeight;
+
 uniform float time;
-uniform vec4 outColorAzul;
-uniform vec4 outColorVerde;
-uniform vec4 outColorRojo;
+uniform mat4 projection;
+uniform mat4 camera;
+uniform mat4 accumTrans;
+uniform sampler2D HeightMap;
+
+
+float Luminosity(vec4 color)
+{
+	return 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
+}
 
 void main()
 {
-	color = vColor;
-	vec4 outPosition = vPosition;
+	vec4 newPosition = vPosition;
 	//float L = ()
-		outPosition.x;// = outPosition.x * cos(time);
-	//vec4 finalColor = vColor + outColorAzul + outColorRojo +  outColorVerde;
-	//color = finalColor;
-	gl_Position = outPosition;
+	texCoord = vTextCoord;
+	textureHeight = texture(HeightMap, texCoord);
+	newPosition.y = Luminosity(textureHeight);
+
+
+	gl_Position = projection * camera * accumTrans * newPosition;
+
 }

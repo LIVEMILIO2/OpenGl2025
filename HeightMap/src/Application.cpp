@@ -22,7 +22,7 @@ void Application::SetupShaderPassthru()
 }
 void Application::SetupShadersTransforms()
 {
-	std::string vertexShader{ loadTextFile("Shaders/vertexTexture.glsl") };
+	std::string vertexShader{ loadTextFile("Shaders/textureVertex.glsl") };
 	std::string fragmentShader{ loadTextFile("Shaders/fragmentTexture.glsl") };
 
 	shaders["transforms"] = InitializeProgram(vertexShader, fragmentShader);
@@ -33,8 +33,8 @@ void Application::SetupShadersTransforms()
 	uniforms["time"] = glGetUniformLocation(shaders["transforms"], "time");
 	uniforms["frecuency"] = glGetUniformLocation(shaders["transforms"], "frecuency");
 	uniforms["amplitude"] = glGetUniformLocation(shaders["transforms"], "amplitude");
-	uniforms["tex0"] = glGetUniformLocation(shaders["transforms"], "tex0");
-	uniforms["tex1"] = glGetUniformLocation(shaders["transforms"], "tex1");
+	uniforms["DiffuseMap"] = glGetUniformLocation(shaders["transforms"], "DiffuseMap");
+	uniforms["HeightMap"] = glGetUniformLocation(shaders["transforms"], "HeightMap");
 	uniforms["leny"] = glGetUniformLocation(shaders["transforms"], "leny");
 	// Obtener locations para los colores
 	uniforms["VertexColors"] = glGetUniformLocation(shaders["transforms"], "vertexColors");
@@ -170,8 +170,8 @@ void Application::Setup()
 	SetupShaders();
 	SetupPlane();
 	//SetupGeometry();
-	textures["Diffuse"] = SetUpTexture("Textures/Diffuse.png");
-	textures["Height"] = SetUpTexture("Textures/Height.png");
+	textures["DiffuseMap"] = SetUpTexture("Textures/Diffuse.png");
+	textures["HeightMap"] = SetUpTexture("Textures/Height.png");
 	//Texturas = { "lenna", "Agnes" };
 	// Configuración inicial de la cámara
 	eye = glm::vec3(0.0f, 0.0f, 2.0f); // Posición inicial de la cámara
@@ -184,7 +184,12 @@ void Application::Setup()
 		0.1f,                  
 		200.0f                 
 	);
-	accumTrans = glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//accumTransX = glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	accumTransX = glm::rotate(glm::mat4(1.0f), glm::radians(eyeXRot), glm::vec3(0.0f, 1.0f, 0.0f));
+	accumTransY = glm::rotate(glm::mat4(1.0f), glm::radians(eyeYRot), glm::vec3(1.0f, 0.0f, 0.0f));
+	accumTrans = accumTransY * accumTransX;
+	//accumTransY = glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//accumTrans = accumTransX * accumTransY;
 	glEnable(GL_DEPTH_TEST); 
 	/*glDepthFunc(GL_GREATER);*/
 	glPolygonMode(GL_FRONT, GL_FILL);
@@ -195,13 +200,15 @@ void Application::Update()
 	time += 0.0001f; 
 
 	
-	eye = glm::vec3(0.0f, 0.0f, 150.0f);
-	center = glm::vec3(0.0f, 0.0f, 1.0f);
+	eye = glm::vec3(0.0f, 0.0f, 2.0f);
+	center = glm::vec3(0.0f, 0.0f, 0.0f);
 	/*glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); */
 
 	// Matriz de vista correctamente calculada
 	camera = glm::lookAt(eye, center, glm::vec3(0.0f,1.0f,0.0f));
-	
+	accumTransX = glm::rotate(glm::mat4(1.0f), glm::radians(eyeXRot), glm::vec3(0.0f, 1.0f, 0.0f));
+	accumTransY = glm::rotate(glm::mat4(1.0f), glm::radians(eyeYRot), glm::vec3(1.0f, 0.0f, 0.0f));
+	accumTrans = accumTransY * accumTransX;
 }
 
 void Application::Draw()
@@ -223,12 +230,14 @@ void Application::Draw()
 	glUniform4fv(uniforms["VertexColors"], 1, &vertexColorValues[0]);
 	// Dibujar
 //	std::string currentTextureName = Texturas[indexTex];
-	glBindTexture(GL_TEXTURE_2D, textures["Diffuse"]);
-	glUniform1i(uniforms["tex0"], 0);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textures["Height"]);
-	glUniform1i(uniforms["tex1"], 1);
+	glBindTexture(GL_TEXTURE_2D, textures["DiffuseMap"]);
+	glUniform1i(uniforms["DiffuseMap"], 0);
+
 	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, textures["HeightMap"]);
+	glUniform1i(uniforms["HeightMap"], 1);
+
 	glBindVertexArray(plane.vao);
 	glDrawArrays(GL_TRIANGLES, 0, plane.getNumVertex());
 
@@ -263,4 +272,10 @@ void Application::Keyboard(int key, int scancode, int action, int mods)
 
 	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
 		amplitude += 0.05f;
+	
+}
+void Application::MouseInput(double xpos, double ypos)
+{
+	eyeXRot = xpos;
+	eyeYRot = ypos;
 }

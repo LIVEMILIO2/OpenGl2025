@@ -33,6 +33,8 @@ private:
 	glm::mat4 projection;
 	glm::mat4 camera;
 	glm::mat4 accumTrans;
+	glm::mat4 accumTransX;
+	glm::mat4 accumTransY;
 	glm::vec3 eye;
 	glm::vec3 center;
 	glm::vec4 vertexColorValues;
@@ -47,10 +49,12 @@ private:
 	std::vector<std::string> Texturas;
 public:
 	float r, g, b, a;
+	float eyeXRot, eyeYRot;
 	GLFWwindow* window;
 	void Setup();
 	void Update();
 	void Draw();
 	void Keyboard(int key, int scancode, int action, int mods);
+	void MouseInput(double xpos, double ypos);
 	void ChangeVertexColor(int vertexIndex);
 };

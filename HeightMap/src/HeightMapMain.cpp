@@ -9,6 +9,10 @@ void checkKeyboard(GLFWwindow* window, int key, int scancode, int action, int mo
 {
     application.Keyboard(key, scancode, action, mods);
 }
+static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	application.MouseInput(xpos, ypos);
+}
 int main(void)
 {
 
@@ -17,7 +21,7 @@ int main(void)
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    application.window = glfwCreateWindow(720, 480, "Plane", NULL, NULL);
+    application.window = glfwCreateWindow(1020, 720, "Plane", NULL, NULL);
     if (!application.window)
     {
         glfwTerminate();
@@ -30,7 +34,9 @@ int main(void)
         std::cout << "Error al inicializar GLAD" << std::endl;
         return -1;
     }
+	glfwSetInputMode(application.window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     glfwSetKeyCallback(application.window, checkKeyboard);
+	glfwSetCursorPosCallback(application.window, cursor_position_callback);
     application.Setup();
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(application.window))
