@@ -11,11 +11,10 @@ uniform float amplitude;
 uniform vec3 eye;
 out vec4 newPosition;
 out vec2 texCoord;
+
 void main()
 {
     texCoord = vTextCoord;
-    newPosition = vPosition;
-
-    
-    gl_Position = projection * camera * accumTrans * newPosition;
+    newPosition = accumTrans * vPosition;
+    gl_Position = projection * camera * newPosition;
 }
