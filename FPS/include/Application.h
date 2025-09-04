@@ -1,0 +1,60 @@
+#pragma once
+#include "glad.h"
+#include "GLFW/glfw3.h"
+#include <map>
+#include <vector>
+#include <string>
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "Plane.h"
+
+class Application
+{
+private:
+	std::map<std::string, GLuint> shaders;
+	std::map<std::string, GLuint> geometry;
+	std::map<std::string, GLuint> uniforms;
+	std::map<std::string, GLuint> textures;
+	void SetupShaderPassthru();
+	void SetupShadersTransforms();
+	void SetupShaders();
+	void SetupGeometry();
+	void SetupGeometrySingleArray();
+	void SetupPlane();
+	GLuint SetUpTexture(const std::string& filename);
+	std::vector<GLfloat> colors;
+	bool colorChanged;
+	float time{ 0.0f };
+	GLuint timeID;
+	GLuint VAO_id;  
+	GLuint VBO_id;
+	GLuint VBO_colorsID;
+	glm::mat4 projection;
+	glm::mat4 camera;
+	glm::mat4 accumTrans;
+	glm::mat4 accumTransX;
+	glm::mat4 accumTransY;
+	glm::vec3 eye;
+	glm::vec3 center;
+	glm::vec4 vertexColorValues;
+	float leny{ 0.f };
+	//float time{ 0.0f };
+	float frecuency{ 0.f };
+	float amplitude{ 0.f };
+	//glm::vec4 ColorChange;
+	//GLuint vertexColorLocs[3];
+	Plane plane;
+	int indexTex = 0; 
+	std::vector<std::string> Texturas;
+public:
+	float r, g, b, a;
+	float eyeXRot, eyeYRot;
+	GLFWwindow* window;
+	void Setup();
+	void Update();
+	void Draw();
+	void Keyboard(int key, int scancode, int action, int mods);
+	void MouseInput(double xpos, double ypos);
+	void ChangeVertexColor(int vertexIndex);
+};
