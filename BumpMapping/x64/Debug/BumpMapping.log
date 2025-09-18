@@ -1,1 +1,16 @@
-﻿  BumpMapping.vcxproj -> C:\Users\ALUMNOS\Desktop\Computo Grafico\OpenGl2025\x64\Debug\BumpMapping.exe
+﻿  Application.cpp
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\BumpMapping\src\Application.cpp(281,12): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\BumpMapping\src\Application.cpp(282,12): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+  BumpMappingMain.cpp
+  Plane.cpp
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\BumpMapping\src\Plane.cpp(35,6): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\BumpMapping\src\Plane.cpp(36,6): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\BumpMapping\src\Plane.cpp(44,14): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\BumpMapping\src\Plane.cpp(45,7): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\BumpMapping\src\Plane.cpp(127,14): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  ShaderFuncs.cpp
+  Generando código...
+  glad.c
+  BumpMapping.vcxproj -> C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\x64\Debug\BumpMapping.exe
+  "pwsh.exe" no se reconoce como un comando interno o externo,
+  programa o archivo por lotes ejecutable.

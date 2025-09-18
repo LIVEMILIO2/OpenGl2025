@@ -1,1 +1,16 @@
-﻿  Texture.vcxproj -> C:\Users\ALUMNOS\Desktop\Computo Grafico\OpenGl2025\x64\Debug\Texture.exe
+﻿  Application.cpp
+  TextureMain.cpp
+  Plane.cpp
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\Texture\src\Plane.cpp(35,37): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\Texture\src\Plane.cpp(35,53): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\Texture\src\Plane.cpp(43,13): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\Texture\src\Plane.cpp(44,7): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\Texture\src\Plane.cpp(120,17): warning C4101: 'VBO_volorsID': variable local sin referencia
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\Texture\src\Plane.cpp(120,9): warning C4101: 'VBO_id': variable local sin referencia
+C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\Texture\src\Plane.cpp(147,14): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  ShaderFuncs.cpp
+  Generando código...
+  glad.c
+  Texture.vcxproj -> C:\Users\Emilio\Desktop\Computo Grafico\OpenGl2025\x64\Debug\Texture.exe
+  "pwsh.exe" no se reconoce como un comando interno o externo,
+  programa o archivo por lotes ejecutable.

@@ -163,8 +163,8 @@ void Application::Setup()
 		100.0f                 
 	);
 
-	glEnable(GL_DEPTH_TEST); 
-	glDepthFunc(GL_GREATER);
+	//glEnable(GL_DEPTH_TEST); 
+	//glDepthFunc(GL_GREATER);
 }
 void Application::Update()
 {

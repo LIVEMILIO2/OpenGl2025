@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <string>
+//#include "Plane.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -32,7 +33,7 @@ private:
 	glm::vec3 center;
 	glm::vec4 vertexColorValues[3]; 
 	GLuint vertexColorLocs[3];
-	Plane plane;
+	//Plane plane;
 public:
 	float r, g, b, a;
 	GLFWwindow* window;
